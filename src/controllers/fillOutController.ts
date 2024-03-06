@@ -9,7 +9,6 @@ import {
 
 export const getFilteredResponses = async (req: Request, res: Response) => {
   try {
-    console.log(apiKey)
     const { formId } = req.params
     const limit = req.query.limit ?? 10
     const filters: FilterClauseType[] = JSON.parse(req.query.filters as string) 
