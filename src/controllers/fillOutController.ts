@@ -46,15 +46,22 @@ export const getFilteredResponses = async (req: Request, res: Response) => {
     )
     const responseData: ResultResponseType = await data.json()
 
-    const filteredData = filterResponses(responseData, filters)
+      if (filters) {
+          const filteredData = filterResponses(responseData, filters)
+          return res
+            .status(200)
+            .json({
+                responses: filteredData,
+                totalResponses: filteredData.length,
+                pageCount: Math.ceil(filteredData.length / Number(limit)),
+                })
+      }
 
-    return res
-        .status(200)
-        .json({
-            responses: filteredData,
-            totalResponses: filteredData.length,
-            pageCount: Math.ceil(filteredData.length / Number(limit)),
-            })
+      return res
+            .status(200)
+            .json(responseData)
+
+    
 
   } catch (error) {
     console.log(error)
