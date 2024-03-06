@@ -11,8 +11,6 @@ export const getFilteredResponses = async (req: Request, res: Response) => {
   try {
     const { formId } = req.params
     const limit = req.query.limit ?? 10
-    const filters: FilterClauseType[] = JSON.parse(req.query.filters as string) 
-
 
     //mock data for testing
 
@@ -46,7 +44,8 @@ export const getFilteredResponses = async (req: Request, res: Response) => {
     )
     const responseData: ResultResponseType = await data.json()
 
-      if (filters) {
+      if (req.query.filters) {
+        const filters: FilterClauseType[] = JSON.parse(req.query.filters as string) 
           const filteredData = filterResponses(responseData, filters)
           return res
             .status(200)
